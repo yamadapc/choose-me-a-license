@@ -1,0 +1,19 @@
+{
+  "name": "choose-me-a-license",
+  "version": "1.0.0",
+  "description": "Initializes a directory with a license file.",
+  "bin": "bin/index.js",
+  "lib": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://gitlab.com/yamadapc/choose-me-a-license.git"
+  },
+  "author": "Pedro Tacla Yamada",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^0.8.0"
+  }
+}
