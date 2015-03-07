@@ -13,5 +13,5 @@ npm install -g choose-me-a-license
 ```
 
 ## License
-This code is licensed under the GPLv2 license for Pedro Tacla Yamad. For more
+This code is licensed under the GPLv2 license for Pedro Tacla Yamada. For more
 information please refer to the [LICENSE](/LICENSE) file.
