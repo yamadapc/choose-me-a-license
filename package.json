@@ -1,6 +1,6 @@
 {
   "name": "choose-me-a-license",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Initializes a directory with a license file.",
   "bin": "bin/index.js",
   "lib": "bin/index.js",
