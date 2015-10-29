@@ -26,25 +26,58 @@ function main() {
     choices: AVAILABLE_LICENSES,
   };
 
-  inquirer.prompt([dirQuestion, licenseQuestion], function(answers) {
+  var copyrightHoldersQuestion = {
+    message: 'Copyright Holders',
+    name: 'copyrightHolders',
+    type: 'input',
+    default: '<copyright holders>'
+  };
+
+  var copyrightYearQuestion = {
+    message: 'Year',
+    name: 'copyrightYear',
+    type: 'input',
+    default: new Date().getFullYear(),
+  };
+
+  inquirer.prompt([
+    dirQuestion,
+    licenseQuestion,
+    copyrightHoldersQuestion,
+    copyrightYearQuestion
+  ], function(answers) {
     if(answers.directory.indexOf('/') !== 0) {
       answers.directory = path.join(process.cwd(), answers.directory);
     }
-
-    var licensePath = path.join(LICENSES_DIR, answers.license);
-    var targetPath = path.join(answers.directory, 'LICENSE');
-
-    var readable = fs.createReadStream(licensePath);
-    var writable = fs.createWriteStream(targetPath);
-
-    readable.pipe(writable)
-      .on('error', function(err) {
-        console.error(err);
-        process.exit(err.code || 1);
-      })
-      .on('close', function() {
-        console.log('Done!');
-        process.exit(0);
-      });
+    copyLicense(answers);
   });
+}
+
+function copyLicense(answers, force) {
+  var licensePath = path.join(LICENSES_DIR, answers.license);
+  var targetPath = path.join(answers.directory, 'LICENSE');
+
+  if(!force && fs.existsSync(targetPath)) {
+    inquirer.prompt([
+      {
+        type: 'confirm',
+        message: targetPath + ' exists. Do you want to overwrite it?',
+        name: 'replace',
+      },
+    ], function(answers2) {
+      if(answers2.replace) {
+        copyLicense(answers, true);
+      } else {
+        process.exit(1);
+      }
+    });
+    return;
+  }
+
+  var license = fs.readFileSync(licensePath).toString();
+  license = license.replace('<copyright holders>', answers.copyrightHolders);
+  license = license.replace('<year>', answers.copyrightYear);
+  fs.writeFileSync(targetPath, license);
+  console.log('Done!');
+  process.exit(0);
 }
