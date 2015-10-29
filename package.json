@@ -14,6 +14,6 @@
   "author": "Pedro Tacla Yamada",
   "license": "MIT",
   "dependencies": {
-    "inquirer": "^0.8.0"
+    "inquirer": "^0.8.5"
   }
 }
