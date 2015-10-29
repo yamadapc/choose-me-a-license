@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+var child_process = require('child_process');
 var fs = require('fs');
 var path = require('path');
 var inquirer = require('inquirer');
@@ -26,11 +27,17 @@ function main() {
     choices: AVAILABLE_LICENSES,
   };
 
+  var defaultCopyrightHolders;
+  try {
+    defaultCopyrightHolders = child_process.execSync('id -F').slice(0, -1);
+  } catch(err) {
+  }
+
   var copyrightHoldersQuestion = {
     message: 'Copyright Holders',
     name: 'copyrightHolders',
     type: 'input',
-    default: '<copyright holders>'
+    default: defaultCopyrightHolders,
   };
 
   var copyrightYearQuestion = {
